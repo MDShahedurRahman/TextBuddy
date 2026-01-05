@@ -31,3 +31,11 @@ def test_find_count_case_insensitive():
     text = "Cat cat CAT dog"
     assert find_count(text, "cat") == 3
     assert find_count(text, "dog") == 1
+
+
+def test_replace_word_whole_word_only():
+    text = "cat category Cat."
+    updated, count = replace_word(text, "cat", "pet")
+    # "category" should not change
+    assert updated == "pet category pet."
+    assert count == 2
