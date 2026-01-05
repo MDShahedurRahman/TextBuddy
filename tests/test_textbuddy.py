@@ -20,3 +20,8 @@ def test_top_words():
     tops = top_words(text, 2)
     assert tops[0] == ("a", 3)
     assert tops[1] == ("b", 2)
+
+
+def test_top_words_invalid_n():
+    with pytest.raises(ValueError):
+        top_words("x", 0)
