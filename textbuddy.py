@@ -59,3 +59,36 @@ def find_count(text: str, needle: str) -> int:
     if not needle_norm:
         return 0
     return sum(1 for w in tokenize(text) if w == needle_norm)
+
+
+def replace_word(text: str, old: str, new: str) -> Tuple[str, int]:
+    """
+    Replaces whole-word matches based on the tokenizer rules.
+    Returns: (new_text, number_of_replacements)
+    """
+    old_norm = normalize_word(old)
+    if not old_norm:
+        return text, 0
+
+    # Replace only whole token matches using a regex boundary compatible with our token pattern.
+    # Example: replace "cat" won't replace "category".
+    pattern = re.compile(
+        rf"(?i)(?<![A-Za-z0-9']){re.escape(old)}(?![A-Za-z0-9'])")
+
+    new_text, count = pattern.subn(new, text)
+    return new_text, count
+
+
+def make_report(text: str, top_n: int = 10) -> Dict:
+    s = stats(text)
+    tops = top_words(text, top_n)
+    return {
+        "stats": {
+            "characters": s.characters,
+            "characters_no_spaces": s.characters_no_spaces,
+            "words": s.words,
+            "lines": s.lines,
+            "unique_words": s.unique_words,
+        },
+        "top_words": [{"word": w, "count": c} for w, c in tops],
+    }
