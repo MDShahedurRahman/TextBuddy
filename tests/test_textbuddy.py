@@ -25,3 +25,9 @@ def test_top_words():
 def test_top_words_invalid_n():
     with pytest.raises(ValueError):
         top_words("x", 0)
+
+
+def test_find_count_case_insensitive():
+    text = "Cat cat CAT dog"
+    assert find_count(text, "cat") == 3
+    assert find_count(text, "dog") == 1
