@@ -18,3 +18,24 @@ TextBuddy - Simple Text Utility
 7) Export report (JSON)
 8) Quit
 """
+
+
+def read_multiline_input() -> str:
+    print("Paste/type text. Finish with a single line: END")
+    lines = []
+    while True:
+        line = input()
+        if line.strip() == "END":
+            break
+        lines.append(line)
+    return "\n".join(lines)
+
+
+def load_file(path_str: str) -> str:
+    p = Path(path_str).expanduser().resolve()
+    return p.read_text(encoding="utf-8")
+
+
+def save_file(path_str: str, content: str) -> None:
+    p = Path(path_str).expanduser().resolve()
+    p.write_text(content, encoding="utf-8")
