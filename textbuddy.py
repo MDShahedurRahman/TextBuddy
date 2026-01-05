@@ -16,3 +16,30 @@ class TextStats:
     words: int
     lines: int
     unique_words: int
+
+
+def normalize_word(word: str) -> str:
+    return word.lower().strip()
+
+
+def tokenize(text: str) -> List[str]:
+    # Extract words like: don't, it's, 2026, etc.
+    return [normalize_word(w) for w in _WORD_RE.findall(text)]
+
+
+def stats(text: str) -> TextStats:
+    chars = len(text)
+    chars_no_spaces = len("".join(text.split()))
+    lines = 0 if text == "" else text.count("\n") + 1
+
+    words_list = tokenize(text)
+    words = len(words_list)
+    unique_words = len(set(words_list))
+
+    return TextStats(
+        characters=chars,
+        characters_no_spaces=chars_no_spaces,
+        words=words,
+        lines=lines,
+        unique_words=unique_words,
+    )
