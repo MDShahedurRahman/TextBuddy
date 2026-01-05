@@ -43,3 +43,19 @@ def stats(text: str) -> TextStats:
         lines=lines,
         unique_words=unique_words,
     )
+
+
+def top_words(text: str, n: int = 10) -> List[Tuple[str, int]]:
+    if n <= 0:
+        raise ValueError("n must be > 0")
+
+    words_list = tokenize(text)
+    counts = Counter(words_list)
+    return counts.most_common(n)
+
+
+def find_count(text: str, needle: str) -> int:
+    needle_norm = normalize_word(needle)
+    if not needle_norm:
+        return 0
+    return sum(1 for w in tokenize(text) if w == needle_norm)
